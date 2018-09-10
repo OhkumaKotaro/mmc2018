@@ -1,0 +1,858 @@
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.__io_putchar,"ax",%progbits
+  18              		.align	1
+  19              		.global	__io_putchar
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv4-sp-d16
+  25              	__io_putchar:
+  26              	.LFB159:
+  27              		.file 1 "Src/main.c"
+   1:Src/main.c    **** /**
+   2:Src/main.c    ****   ******************************************************************************
+   3:Src/main.c    ****   * @file           : main.c
+   4:Src/main.c    ****   * @brief          : Main program body
+   5:Src/main.c    ****   ******************************************************************************
+   6:Src/main.c    ****   ** This notice applies to any and all portions of this file
+   7:Src/main.c    ****   * that are not between comment pairs USER CODE BEGIN and
+   8:Src/main.c    ****   * USER CODE END. Other portions of this file, whether 
+   9:Src/main.c    ****   * inserted by the user or by software development tools
+  10:Src/main.c    ****   * are owned by their respective copyright owners.
+  11:Src/main.c    ****   *
+  12:Src/main.c    ****   * COPYRIGHT(c) 2018 STMicroelectronics
+  13:Src/main.c    ****   *
+  14:Src/main.c    ****   * Redistribution and use in source and binary forms, with or without modification,
+  15:Src/main.c    ****   * are permitted provided that the following conditions are met:
+  16:Src/main.c    ****   *   1. Redistributions of source code must retain the above copyright notice,
+  17:Src/main.c    ****   *      this list of conditions and the following disclaimer.
+  18:Src/main.c    ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  19:Src/main.c    ****   *      this list of conditions and the following disclaimer in the documentation
+  20:Src/main.c    ****   *      and/or other materials provided with the distribution.
+  21:Src/main.c    ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  22:Src/main.c    ****   *      may be used to endorse or promote products derived from this software
+  23:Src/main.c    ****   *      without specific prior written permission.
+  24:Src/main.c    ****   *
+  25:Src/main.c    ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  26:Src/main.c    ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  27:Src/main.c    ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  28:Src/main.c    ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  29:Src/main.c    ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  30:Src/main.c    ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  31:Src/main.c    ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 2
+
+
+  32:Src/main.c    ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+  33:Src/main.c    ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  34:Src/main.c    ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  35:Src/main.c    ****   *
+  36:Src/main.c    ****   ******************************************************************************
+  37:Src/main.c    ****   */
+  38:Src/main.c    **** /* Includes ------------------------------------------------------------------*/
+  39:Src/main.c    **** #include "main.h"
+  40:Src/main.c    **** #include "stm32f4xx_hal.h"
+  41:Src/main.c    **** #include "adc.h"
+  42:Src/main.c    **** #include "spi.h"
+  43:Src/main.c    **** #include "tim.h"
+  44:Src/main.c    **** #include "usart.h"
+  45:Src/main.c    **** #include "gpio.h"
+  46:Src/main.c    **** 
+  47:Src/main.c    **** /* USER CODE BEGIN Includes */
+  48:Src/main.c    **** #include <arm_math.h>
+  49:Src/main.c    **** #include <string.h>
+  50:Src/main.c    **** #include <stdio.h>
+  51:Src/main.c    ****  
+  52:Src/main.c    **** #ifdef __GNUC__
+  53:Src/main.c    **** #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+  54:Src/main.c    **** #else
+  55:Src/main.c    **** #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+  56:Src/main.c    **** #endif /* __GNUC__ */
+  57:Src/main.c    **** void __io_putchar(uint8_t ch) {
+  28              		.loc 1 57 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 00B5     		push	{lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 4
+  36              		.cfi_offset 14, -4
+  37 0002 83B0     		sub	sp, sp, #12
+  38              	.LCFI1:
+  39              		.cfi_def_cfa_offset 16
+  40 0004 02A9     		add	r1, sp, #8
+  41 0006 01F8010D 		strb	r0, [r1, #-1]!
+  58:Src/main.c    ****   HAL_UART_Transmit(&huart3, &ch, 1, 1);
+  42              		.loc 1 58 0
+  43 000a 0123     		movs	r3, #1
+  44 000c 1A46     		mov	r2, r3
+  45 000e 0348     		ldr	r0, .L3
+  46              	.LVL1:
+  47 0010 FFF7FEFF 		bl	HAL_UART_Transmit
+  48              	.LVL2:
+  59:Src/main.c    **** }
+  49              		.loc 1 59 0
+  50 0014 03B0     		add	sp, sp, #12
+  51              	.LCFI2:
+  52              		.cfi_def_cfa_offset 4
+  53              		@ sp needed
+  54 0016 5DF804FB 		ldr	pc, [sp], #4
+  55              	.L4:
+  56 001a 00BF     		.align	2
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 3
+
+
+  57              	.L3:
+  58 001c 00000000 		.word	huart3
+  59              		.cfi_endproc
+  60              	.LFE159:
+  62              		.section	.text.l_chika,"ax",%progbits
+  63              		.align	1
+  64              		.global	l_chika
+  65              		.syntax unified
+  66              		.thumb
+  67              		.thumb_func
+  68              		.fpu fpv4-sp-d16
+  70              	l_chika:
+  71              	.LFB162:
+  60:Src/main.c    **** /* USER CODE END Includes */
+  61:Src/main.c    **** 
+  62:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  63:Src/main.c    **** 
+  64:Src/main.c    **** /* USER CODE BEGIN PV */
+  65:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  66:Src/main.c    **** extern int batt_analog;
+  67:Src/main.c    **** extern int sensor[4];
+  68:Src/main.c    **** /* USER CODE END PV */
+  69:Src/main.c    **** 
+  70:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  71:Src/main.c    **** void SystemClock_Config(void);
+  72:Src/main.c    **** 
+  73:Src/main.c    **** /* USER CODE BEGIN PFP */
+  74:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  75:Src/main.c    **** void l_chika(void);
+  76:Src/main.c    **** void Batt_Check(void);
+  77:Src/main.c    **** /* USER CODE END PFP */
+  78:Src/main.c    **** 
+  79:Src/main.c    **** /* USER CODE BEGIN 0 */
+  80:Src/main.c    **** 
+  81:Src/main.c    **** /* USER CODE END 0 */
+  82:Src/main.c    **** 
+  83:Src/main.c    **** /**
+  84:Src/main.c    ****   * @brief  The application entry point.
+  85:Src/main.c    ****   *
+  86:Src/main.c    ****   * @retval None
+  87:Src/main.c    ****   */
+  88:Src/main.c    **** int main(void)
+  89:Src/main.c    **** {
+  90:Src/main.c    ****   /* USER CODE BEGIN 1 */
+  91:Src/main.c    **** 
+  92:Src/main.c    ****   /* USER CODE END 1 */
+  93:Src/main.c    **** 
+  94:Src/main.c    ****   /* MCU Configuration----------------------------------------------------------*/
+  95:Src/main.c    **** 
+  96:Src/main.c    ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  97:Src/main.c    ****   HAL_Init();
+  98:Src/main.c    **** 
+  99:Src/main.c    ****   /* USER CODE BEGIN Init */
+ 100:Src/main.c    ****   
+ 101:Src/main.c    ****   /* USER CODE END Init */
+ 102:Src/main.c    **** 
+ 103:Src/main.c    ****   /* Configure the system clock */
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 4
+
+
+ 104:Src/main.c    ****   SystemClock_Config();
+ 105:Src/main.c    **** 
+ 106:Src/main.c    ****   /* USER CODE BEGIN SysInit */
+ 107:Src/main.c    **** 
+ 108:Src/main.c    ****   /* USER CODE END SysInit */
+ 109:Src/main.c    **** 
+ 110:Src/main.c    ****   /* Initialize all configured peripherals */
+ 111:Src/main.c    ****   MX_GPIO_Init();
+ 112:Src/main.c    ****   MX_USART3_UART_Init();
+ 113:Src/main.c    ****   MX_TIM4_Init();
+ 114:Src/main.c    ****   MX_SPI2_Init();
+ 115:Src/main.c    ****   MX_TIM3_Init();
+ 116:Src/main.c    ****   MX_TIM2_Init();
+ 117:Src/main.c    ****   MX_TIM1_Init();
+ 118:Src/main.c    ****   MX_TIM5_Init();
+ 119:Src/main.c    ****   MX_ADC1_Init();
+ 120:Src/main.c    ****   MX_ADC2_Init();
+ 121:Src/main.c    ****   MX_ADC3_Init();
+ 122:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 123:Src/main.c    ****   setbuf(stdout, NULL);
+ 124:Src/main.c    ****   HAL_TIM_Base_Start_IT(&htim5);
+ 125:Src/main.c    ****   /* USER CODE END 2 */
+ 126:Src/main.c    **** 
+ 127:Src/main.c    ****   /* Infinite loop */
+ 128:Src/main.c    ****   /* USER CODE BEGIN WHILE */
+ 129:Src/main.c    ****   while (1)
+ 130:Src/main.c    ****   {
+ 131:Src/main.c    ****     Motor_pwm(50,50);
+ 132:Src/main.c    ****   /* USER CODE END WHILE */
+ 133:Src/main.c    **** 
+ 134:Src/main.c    ****   /* USER CODE BEGIN 3 */
+ 135:Src/main.c    **** 
+ 136:Src/main.c    ****   }
+ 137:Src/main.c    ****   /* USER CODE END 3 */
+ 138:Src/main.c    **** 
+ 139:Src/main.c    **** }
+ 140:Src/main.c    **** 
+ 141:Src/main.c    **** /**
+ 142:Src/main.c    ****   * @brief System Clock Configuration
+ 143:Src/main.c    ****   * @retval None
+ 144:Src/main.c    ****   */
+ 145:Src/main.c    **** void SystemClock_Config(void)
+ 146:Src/main.c    **** {
+ 147:Src/main.c    **** 
+ 148:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct;
+ 149:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+ 150:Src/main.c    **** 
+ 151:Src/main.c    ****     /**Configure the main internal regulator output voltage 
+ 152:Src/main.c    ****     */
+ 153:Src/main.c    ****   __HAL_RCC_PWR_CLK_ENABLE();
+ 154:Src/main.c    **** 
+ 155:Src/main.c    ****   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+ 156:Src/main.c    **** 
+ 157:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 158:Src/main.c    ****     */
+ 159:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+ 160:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 5
+
+
+ 161:Src/main.c    ****   RCC_OscInitStruct.HSICalibrationValue = 16;
+ 162:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 163:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+ 164:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLM = 8;
+ 165:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLN = 80;
+ 166:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+ 167:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLQ = 4;
+ 168:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 169:Src/main.c    ****   {
+ 170:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 171:Src/main.c    ****   }
+ 172:Src/main.c    **** 
+ 173:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 174:Src/main.c    ****     */
+ 175:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 176:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 177:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 178:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+ 179:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 180:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 181:Src/main.c    **** 
+ 182:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+ 183:Src/main.c    ****   {
+ 184:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 185:Src/main.c    ****   }
+ 186:Src/main.c    **** 
+ 187:Src/main.c    ****     /**Configure the Systick interrupt time 
+ 188:Src/main.c    ****     */
+ 189:Src/main.c    ****   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+ 190:Src/main.c    **** 
+ 191:Src/main.c    ****     /**Configure the Systick 
+ 192:Src/main.c    ****     */
+ 193:Src/main.c    ****   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+ 194:Src/main.c    **** 
+ 195:Src/main.c    ****   /* SysTick_IRQn interrupt configuration */
+ 196:Src/main.c    ****   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+ 197:Src/main.c    **** }
+ 198:Src/main.c    **** 
+ 199:Src/main.c    **** /* USER CODE BEGIN 4 */
+ 200:Src/main.c    **** void l_chika(void)
+ 201:Src/main.c    **** {
+  72              		.loc 1 201 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76 0000 08B5     		push	{r3, lr}
+  77              	.LCFI3:
+  78              		.cfi_def_cfa_offset 8
+  79              		.cfi_offset 3, -8
+  80              		.cfi_offset 14, -4
+ 202:Src/main.c    ****     All_LED_ON();
+  81              		.loc 1 202 0
+  82 0002 FFF7FEFF 		bl	All_LED_ON
+  83              	.LVL3:
+ 203:Src/main.c    ****     HAL_Delay(1000);
+  84              		.loc 1 203 0
+  85 0006 4FF47A70 		mov	r0, #1000
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 6
+
+
+  86 000a FFF7FEFF 		bl	HAL_Delay
+  87              	.LVL4:
+ 204:Src/main.c    ****     All_LED_OFF();
+  88              		.loc 1 204 0
+  89 000e FFF7FEFF 		bl	All_LED_OFF
+  90              	.LVL5:
+ 205:Src/main.c    ****     HAL_Delay(1000);
+  91              		.loc 1 205 0
+  92 0012 4FF47A70 		mov	r0, #1000
+  93 0016 FFF7FEFF 		bl	HAL_Delay
+  94              	.LVL6:
+ 206:Src/main.c    **** }
+  95              		.loc 1 206 0
+  96 001a 08BD     		pop	{r3, pc}
+  97              		.cfi_endproc
+  98              	.LFE162:
+ 100              		.global	__aeabi_f2d
+ 101              		.global	__aeabi_ddiv
+ 102              		.global	__aeabi_dmul
+ 103              		.global	__aeabi_d2f
+ 104              		.section	.text.Batt_Check,"ax",%progbits
+ 105              		.align	1
+ 106              		.global	Batt_Check
+ 107              		.syntax unified
+ 108              		.thumb
+ 109              		.thumb_func
+ 110              		.fpu fpv4-sp-d16
+ 112              	Batt_Check:
+ 113              	.LFB163:
+ 207:Src/main.c    **** 
+ 208:Src/main.c    **** void Batt_Check(void)
+ 209:Src/main.c    **** {
+ 114              		.loc 1 209 0
+ 115              		.cfi_startproc
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118 0000 08B5     		push	{r3, lr}
+ 119              	.LCFI4:
+ 120              		.cfi_def_cfa_offset 8
+ 121              		.cfi_offset 3, -8
+ 122              		.cfi_offset 14, -4
+ 123              	.LVL7:
+ 124              	.LBB2:
+ 210:Src/main.c    ****   float batt=0;
+ 211:Src/main.c    ****   for(int i=0;i<50;i++){
+ 125              		.loc 1 211 0
+ 126 0002 0023     		movs	r3, #0
+ 127              	.LBE2:
+ 210:Src/main.c    ****   float batt=0;
+ 128              		.loc 1 210 0
+ 129 0004 9FED227A 		vldr.32	s14, .L11+32
+ 130              	.LBB3:
+ 131              		.loc 1 211 0
+ 132 0008 07E0     		b	.L8
+ 133              	.LVL8:
+ 134              	.L9:
+ 212:Src/main.c    ****     batt += batt_analog;
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 7
+
+
+ 135              		.loc 1 212 0 discriminator 3
+ 136 000a 224A     		ldr	r2, .L11+36
+ 137 000c D2ED007A 		vldr.32	s15, [r2]	@ int
+ 138 0010 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 139 0014 37EE277A 		vadd.f32	s14, s14, s15
+ 140              	.LVL9:
+ 211:Src/main.c    ****     batt += batt_analog;
+ 141              		.loc 1 211 0 discriminator 3
+ 142 0018 0133     		adds	r3, r3, #1
+ 143              	.LVL10:
+ 144              	.L8:
+ 211:Src/main.c    ****     batt += batt_analog;
+ 145              		.loc 1 211 0 is_stmt 0 discriminator 1
+ 146 001a 312B     		cmp	r3, #49
+ 147 001c F5DD     		ble	.L9
+ 148              	.LVL11:
+ 149              	.LBE3:
+ 213:Src/main.c    ****   }
+ 214:Src/main.c    ****   batt /= 50;
+ 215:Src/main.c    ****   batt = batt/4095.0*3.3*1330/330;
+ 150              		.loc 1 215 0 is_stmt 1
+ 151 001e DFED1E7A 		vldr.32	s15, .L11+40
+ 152 0022 C7EE277A 		vdiv.f32	s15, s14, s15
+ 153              	.LVL12:
+ 154 0026 17EE900A 		vmov	r0, s15
+ 155 002a FFF7FEFF 		bl	__aeabi_f2d
+ 156              	.LVL13:
+ 157 002e 10A3     		adr	r3, .L11
+ 158 0030 D3E90023 		ldrd	r2, [r3]
+ 159 0034 FFF7FEFF 		bl	__aeabi_ddiv
+ 160              	.LVL14:
+ 161 0038 0FA3     		adr	r3, .L11+8
+ 162 003a D3E90023 		ldrd	r2, [r3]
+ 163 003e FFF7FEFF 		bl	__aeabi_dmul
+ 164              	.LVL15:
+ 165 0042 0FA3     		adr	r3, .L11+16
+ 166 0044 D3E90023 		ldrd	r2, [r3]
+ 167 0048 FFF7FEFF 		bl	__aeabi_dmul
+ 168              	.LVL16:
+ 169 004c 0EA3     		adr	r3, .L11+24
+ 170 004e D3E90023 		ldrd	r2, [r3]
+ 171 0052 FFF7FEFF 		bl	__aeabi_ddiv
+ 172              	.LVL17:
+ 173 0056 FFF7FEFF 		bl	__aeabi_d2f
+ 174              	.LVL18:
+ 216:Src/main.c    ****   printf("batt:%lf\r",batt);
+ 175              		.loc 1 216 0
+ 176 005a FFF7FEFF 		bl	__aeabi_f2d
+ 177              	.LVL19:
+ 178 005e 0246     		mov	r2, r0
+ 179 0060 0B46     		mov	r3, r1
+ 180 0062 0E48     		ldr	r0, .L11+44
+ 181 0064 FFF7FEFF 		bl	printf
+ 182              	.LVL20:
+ 217:Src/main.c    **** }
+ 183              		.loc 1 217 0
+ 184 0068 08BD     		pop	{r3, pc}
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 8
+
+
+ 185              	.L12:
+ 186 006a 00BFAFF3 		.align	3
+ 186      0080
+ 187              	.L11:
+ 188 0070 00000000 		.word	0
+ 189 0074 00FEAF40 		.word	1085275648
+ 190 0078 66666666 		.word	1717986918
+ 191 007c 66660A40 		.word	1074423398
+ 192 0080 00000000 		.word	0
+ 193 0084 00C89440 		.word	1083492352
+ 194 0088 00000000 		.word	0
+ 195 008c 00A07440 		.word	1081384960
+ 196 0090 00000000 		.word	0
+ 197 0094 00000000 		.word	batt_analog
+ 198 0098 00004842 		.word	1112014848
+ 199 009c 00000000 		.word	.LC0
+ 200              		.cfi_endproc
+ 201              	.LFE163:
+ 203              		.section	.text._Error_Handler,"ax",%progbits
+ 204              		.align	1
+ 205              		.global	_Error_Handler
+ 206              		.syntax unified
+ 207              		.thumb
+ 208              		.thumb_func
+ 209              		.fpu fpv4-sp-d16
+ 211              	_Error_Handler:
+ 212              	.LFB164:
+ 218:Src/main.c    **** /* USER CODE END 4 */
+ 219:Src/main.c    **** 
+ 220:Src/main.c    **** /**
+ 221:Src/main.c    ****   * @brief  This function is executed in case of error occurrence.
+ 222:Src/main.c    ****   * @param  file: The file name as string.
+ 223:Src/main.c    ****   * @param  line: The line in file as a number.
+ 224:Src/main.c    ****   * @retval None
+ 225:Src/main.c    ****   */
+ 226:Src/main.c    **** void _Error_Handler(char *file, int line)
+ 227:Src/main.c    **** {
+ 213              		.loc 1 227 0
+ 214              		.cfi_startproc
+ 215              		@ Volatile: function does not return.
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              		@ link register save eliminated.
+ 219              	.LVL21:
+ 220              	.L14:
+ 221 0000 FEE7     		b	.L14
+ 222              		.cfi_endproc
+ 223              	.LFE164:
+ 225              		.section	.text.SystemClock_Config,"ax",%progbits
+ 226              		.align	1
+ 227              		.global	SystemClock_Config
+ 228              		.syntax unified
+ 229              		.thumb
+ 230              		.thumb_func
+ 231              		.fpu fpv4-sp-d16
+ 233              	SystemClock_Config:
+ 234              	.LFB161:
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 9
+
+
+ 146:Src/main.c    **** 
+ 235              		.loc 1 146 0
+ 236              		.cfi_startproc
+ 237              		@ args = 0, pretend = 0, frame = 80
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146:Src/main.c    **** 
+ 239              		.loc 1 146 0
+ 240 0000 00B5     		push	{lr}
+ 241              	.LCFI5:
+ 242              		.cfi_def_cfa_offset 4
+ 243              		.cfi_offset 14, -4
+ 244 0002 95B0     		sub	sp, sp, #84
+ 245              	.LCFI6:
+ 246              		.cfi_def_cfa_offset 88
+ 247              	.LBB4:
+ 153:Src/main.c    **** 
+ 248              		.loc 1 153 0
+ 249 0004 0022     		movs	r2, #0
+ 250 0006 0192     		str	r2, [sp, #4]
+ 251 0008 294B     		ldr	r3, .L21
+ 252 000a 196C     		ldr	r1, [r3, #64]
+ 253 000c 41F08051 		orr	r1, r1, #268435456
+ 254 0010 1964     		str	r1, [r3, #64]
+ 255 0012 1B6C     		ldr	r3, [r3, #64]
+ 256 0014 03F08053 		and	r3, r3, #268435456
+ 257 0018 0193     		str	r3, [sp, #4]
+ 258 001a 019B     		ldr	r3, [sp, #4]
+ 259              	.LBE4:
+ 260              	.LBB5:
+ 155:Src/main.c    **** 
+ 261              		.loc 1 155 0
+ 262 001c 0292     		str	r2, [sp, #8]
+ 263 001e 254B     		ldr	r3, .L21+4
+ 264 0020 1968     		ldr	r1, [r3]
+ 265 0022 41F48041 		orr	r1, r1, #16384
+ 266 0026 1960     		str	r1, [r3]
+ 267 0028 1B68     		ldr	r3, [r3]
+ 268 002a 03F48043 		and	r3, r3, #16384
+ 269 002e 0293     		str	r3, [sp, #8]
+ 270 0030 029B     		ldr	r3, [sp, #8]
+ 271              	.LBE5:
+ 159:Src/main.c    ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 272              		.loc 1 159 0
+ 273 0032 0223     		movs	r3, #2
+ 274 0034 0893     		str	r3, [sp, #32]
+ 160:Src/main.c    ****   RCC_OscInitStruct.HSICalibrationValue = 16;
+ 275              		.loc 1 160 0
+ 276 0036 0121     		movs	r1, #1
+ 277 0038 0B91     		str	r1, [sp, #44]
+ 161:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 278              		.loc 1 161 0
+ 279 003a 1021     		movs	r1, #16
+ 280 003c 0C91     		str	r1, [sp, #48]
+ 162:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+ 281              		.loc 1 162 0
+ 282 003e 0E93     		str	r3, [sp, #56]
+ 163:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLM = 8;
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 10
+
+
+ 283              		.loc 1 163 0
+ 284 0040 0F92     		str	r2, [sp, #60]
+ 164:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLN = 80;
+ 285              		.loc 1 164 0
+ 286 0042 0822     		movs	r2, #8
+ 287 0044 1092     		str	r2, [sp, #64]
+ 165:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+ 288              		.loc 1 165 0
+ 289 0046 5022     		movs	r2, #80
+ 290 0048 1192     		str	r2, [sp, #68]
+ 166:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLQ = 4;
+ 291              		.loc 1 166 0
+ 292 004a 1293     		str	r3, [sp, #72]
+ 167:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 293              		.loc 1 167 0
+ 294 004c 0423     		movs	r3, #4
+ 295 004e 1393     		str	r3, [sp, #76]
+ 168:Src/main.c    ****   {
+ 296              		.loc 1 168 0
+ 297 0050 08A8     		add	r0, sp, #32
+ 298 0052 FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 299              	.LVL22:
+ 300 0056 18BB     		cbnz	r0, .L19
+ 175:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 301              		.loc 1 175 0
+ 302 0058 0F23     		movs	r3, #15
+ 303 005a 0393     		str	r3, [sp, #12]
+ 177:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+ 304              		.loc 1 177 0
+ 305 005c 0223     		movs	r3, #2
+ 306 005e 0493     		str	r3, [sp, #16]
+ 178:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 307              		.loc 1 178 0
+ 308 0060 8023     		movs	r3, #128
+ 309 0062 0593     		str	r3, [sp, #20]
+ 179:Src/main.c    ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 310              		.loc 1 179 0
+ 311 0064 4FF48053 		mov	r3, #4096
+ 312 0068 0693     		str	r3, [sp, #24]
+ 180:Src/main.c    **** 
+ 313              		.loc 1 180 0
+ 314 006a 0023     		movs	r3, #0
+ 315 006c 0793     		str	r3, [sp, #28]
+ 182:Src/main.c    ****   {
+ 316              		.loc 1 182 0
+ 317 006e 0121     		movs	r1, #1
+ 318 0070 03A8     		add	r0, sp, #12
+ 319 0072 FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 320              	.LVL23:
+ 321 0076 B8B9     		cbnz	r0, .L20
+ 189:Src/main.c    **** 
+ 322              		.loc 1 189 0
+ 323 0078 FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
+ 324              	.LVL24:
+ 325 007c 0E4B     		ldr	r3, .L21+8
+ 326 007e A3FB0030 		umull	r3, r0, r3, r0
+ 327 0082 8009     		lsrs	r0, r0, #6
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 11
+
+
+ 328 0084 FFF7FEFF 		bl	HAL_SYSTICK_Config
+ 329              	.LVL25:
+ 193:Src/main.c    **** 
+ 330              		.loc 1 193 0
+ 331 0088 0420     		movs	r0, #4
+ 332 008a FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
+ 333              	.LVL26:
+ 196:Src/main.c    **** }
+ 334              		.loc 1 196 0
+ 335 008e 0022     		movs	r2, #0
+ 336 0090 1146     		mov	r1, r2
+ 337 0092 4FF0FF30 		mov	r0, #-1
+ 338 0096 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 339              	.LVL27:
+ 197:Src/main.c    **** 
+ 340              		.loc 1 197 0
+ 341 009a 15B0     		add	sp, sp, #84
+ 342              	.LCFI7:
+ 343              		.cfi_remember_state
+ 344              		.cfi_def_cfa_offset 4
+ 345              		@ sp needed
+ 346 009c 5DF804FB 		ldr	pc, [sp], #4
+ 347              	.L19:
+ 348              	.LCFI8:
+ 349              		.cfi_restore_state
+ 170:Src/main.c    ****   }
+ 350              		.loc 1 170 0
+ 351 00a0 AA21     		movs	r1, #170
+ 352 00a2 0648     		ldr	r0, .L21+12
+ 353 00a4 FFF7FEFF 		bl	_Error_Handler
+ 354              	.LVL28:
+ 355              	.L20:
+ 184:Src/main.c    ****   }
+ 356              		.loc 1 184 0
+ 357 00a8 B821     		movs	r1, #184
+ 358 00aa 0448     		ldr	r0, .L21+12
+ 359 00ac FFF7FEFF 		bl	_Error_Handler
+ 360              	.LVL29:
+ 361              	.L22:
+ 362              		.align	2
+ 363              	.L21:
+ 364 00b0 00380240 		.word	1073887232
+ 365 00b4 00700040 		.word	1073770496
+ 366 00b8 D34D6210 		.word	274877907
+ 367 00bc 00000000 		.word	.LC1
+ 368              		.cfi_endproc
+ 369              	.LFE161:
+ 371              		.section	.text.main,"ax",%progbits
+ 372              		.align	1
+ 373              		.global	main
+ 374              		.syntax unified
+ 375              		.thumb
+ 376              		.thumb_func
+ 377              		.fpu fpv4-sp-d16
+ 379              	main:
+ 380              	.LFB160:
+  89:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 12
+
+
+ 381              		.loc 1 89 0
+ 382              		.cfi_startproc
+ 383              		@ Volatile: function does not return.
+ 384              		@ args = 0, pretend = 0, frame = 0
+ 385              		@ frame_needed = 0, uses_anonymous_args = 0
+ 386 0000 08B5     		push	{r3, lr}
+ 387              	.LCFI9:
+ 388              		.cfi_def_cfa_offset 8
+ 389              		.cfi_offset 3, -8
+ 390              		.cfi_offset 14, -4
+  97:Src/main.c    **** 
+ 391              		.loc 1 97 0
+ 392 0002 FFF7FEFF 		bl	HAL_Init
+ 393              	.LVL30:
+ 104:Src/main.c    **** 
+ 394              		.loc 1 104 0
+ 395 0006 FFF7FEFF 		bl	SystemClock_Config
+ 396              	.LVL31:
+ 111:Src/main.c    ****   MX_USART3_UART_Init();
+ 397              		.loc 1 111 0
+ 398 000a FFF7FEFF 		bl	MX_GPIO_Init
+ 399              	.LVL32:
+ 112:Src/main.c    ****   MX_TIM4_Init();
+ 400              		.loc 1 112 0
+ 401 000e FFF7FEFF 		bl	MX_USART3_UART_Init
+ 402              	.LVL33:
+ 113:Src/main.c    ****   MX_SPI2_Init();
+ 403              		.loc 1 113 0
+ 404 0012 FFF7FEFF 		bl	MX_TIM4_Init
+ 405              	.LVL34:
+ 114:Src/main.c    ****   MX_TIM3_Init();
+ 406              		.loc 1 114 0
+ 407 0016 FFF7FEFF 		bl	MX_SPI2_Init
+ 408              	.LVL35:
+ 115:Src/main.c    ****   MX_TIM2_Init();
+ 409              		.loc 1 115 0
+ 410 001a FFF7FEFF 		bl	MX_TIM3_Init
+ 411              	.LVL36:
+ 116:Src/main.c    ****   MX_TIM1_Init();
+ 412              		.loc 1 116 0
+ 413 001e FFF7FEFF 		bl	MX_TIM2_Init
+ 414              	.LVL37:
+ 117:Src/main.c    ****   MX_TIM5_Init();
+ 415              		.loc 1 117 0
+ 416 0022 FFF7FEFF 		bl	MX_TIM1_Init
+ 417              	.LVL38:
+ 118:Src/main.c    ****   MX_ADC1_Init();
+ 418              		.loc 1 118 0
+ 419 0026 FFF7FEFF 		bl	MX_TIM5_Init
+ 420              	.LVL39:
+ 119:Src/main.c    ****   MX_ADC2_Init();
+ 421              		.loc 1 119 0
+ 422 002a FFF7FEFF 		bl	MX_ADC1_Init
+ 423              	.LVL40:
+ 120:Src/main.c    ****   MX_ADC3_Init();
+ 424              		.loc 1 120 0
+ 425 002e FFF7FEFF 		bl	MX_ADC2_Init
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 13
+
+
+ 426              	.LVL41:
+ 121:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 427              		.loc 1 121 0
+ 428 0032 FFF7FEFF 		bl	MX_ADC3_Init
+ 429              	.LVL42:
+ 123:Src/main.c    ****   HAL_TIM_Base_Start_IT(&htim5);
+ 430              		.loc 1 123 0
+ 431 0036 074B     		ldr	r3, .L26
+ 432 0038 1B68     		ldr	r3, [r3]
+ 433 003a 0021     		movs	r1, #0
+ 434 003c 9868     		ldr	r0, [r3, #8]
+ 435 003e FFF7FEFF 		bl	setbuf
+ 436              	.LVL43:
+ 124:Src/main.c    ****   /* USER CODE END 2 */
+ 437              		.loc 1 124 0
+ 438 0042 0548     		ldr	r0, .L26+4
+ 439 0044 FFF7FEFF 		bl	HAL_TIM_Base_Start_IT
+ 440              	.LVL44:
+ 441              	.L24:
+ 131:Src/main.c    ****   /* USER CODE END WHILE */
+ 442              		.loc 1 131 0 discriminator 1
+ 443 0048 3221     		movs	r1, #50
+ 444 004a 0846     		mov	r0, r1
+ 445 004c FFF7FEFF 		bl	Motor_pwm
+ 446              	.LVL45:
+ 447 0050 FAE7     		b	.L24
+ 448              	.L27:
+ 449 0052 00BF     		.align	2
+ 450              	.L26:
+ 451 0054 00000000 		.word	_impure_ptr
+ 452 0058 00000000 		.word	htim5
+ 453              		.cfi_endproc
+ 454              	.LFE160:
+ 456              		.section	.rodata.Batt_Check.str1.4,"aMS",%progbits,1
+ 457              		.align	2
+ 458              	.LC0:
+ 459 0000 62617474 		.ascii	"batt:%lf\015\000"
+ 459      3A256C66 
+ 459      0D00
+ 460              		.section	.rodata.SystemClock_Config.str1.4,"aMS",%progbits,1
+ 461              		.align	2
+ 462              	.LC1:
+ 463 0000 5372632F 		.ascii	"Src/main.c\000"
+ 463      6D61696E 
+ 463      2E6300
+ 464              		.text
+ 465              	.Letext0:
+ 466              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include\
+ 467              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include\
+ 468              		.file 4 "Drivers/CMSIS/Include/core_cm4.h"
+ 469              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h"
+ 470              		.file 6 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h"
+ 471              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include\
+ 472              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include\
+ 473              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\lib\\gcc\\arm-none-eabi
+ 474              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include
+ 475              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 14
+
+
+ 476              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h"
+ 477              		.file 13 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h"
+ 478              		.file 14 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 479              		.file 15 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h"
+ 480              		.file 16 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h"
+ 481              		.file 17 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h"
+ 482              		.file 18 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 483              		.file 19 "Inc/adc.h"
+ 484              		.file 20 "Inc/spi.h"
+ 485              		.file 21 "Inc/tim.h"
+ 486              		.file 22 "Inc/usart.h"
+ 487              		.file 23 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include
+ 488              		.file 24 "c:\\program files (x86)\\gnu tools arm embedded\\7 2017-q4-major\\arm-none-eabi\\include
+ 489              		.file 25 "Inc/gpio.h"
+ 490              		.file 26 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ 491              		.file 27 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h"
+ARM GAS  C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:18     .text.__io_putchar:00000000 $t
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:25     .text.__io_putchar:00000000 __io_putchar
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:58     .text.__io_putchar:0000001c $d
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:63     .text.l_chika:00000000 $t
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:70     .text.l_chika:00000000 l_chika
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:105    .text.Batt_Check:00000000 $t
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:112    .text.Batt_Check:00000000 Batt_Check
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:188    .text.Batt_Check:00000070 $d
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:204    .text._Error_Handler:00000000 $t
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:211    .text._Error_Handler:00000000 _Error_Handler
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:226    .text.SystemClock_Config:00000000 $t
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:233    .text.SystemClock_Config:00000000 SystemClock_Config
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:364    .text.SystemClock_Config:000000b0 $d
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:372    .text.main:00000000 $t
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:379    .text.main:00000000 main
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:451    .text.main:00000054 $d
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:457    .rodata.Batt_Check.str1.4:00000000 $d
+C:\Users\kotaro\AppData\Local\Temp\ccCt5nIF.s:461    .rodata.SystemClock_Config.str1.4:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Transmit
+huart3
+All_LED_ON
+HAL_Delay
+All_LED_OFF
+__aeabi_f2d
+__aeabi_ddiv
+__aeabi_dmul
+__aeabi_d2f
+printf
+batt_analog
+HAL_RCC_OscConfig
+HAL_RCC_ClockConfig
+HAL_RCC_GetHCLKFreq
+HAL_SYSTICK_Config
+HAL_SYSTICK_CLKSourceConfig
+HAL_NVIC_SetPriority
+HAL_Init
+MX_GPIO_Init
+MX_USART3_UART_Init
+MX_TIM4_Init
+MX_SPI2_Init
+MX_TIM3_Init
+MX_TIM2_Init
+MX_TIM1_Init
+MX_TIM5_Init
+MX_ADC1_Init
+MX_ADC2_Init
+MX_ADC3_Init
+setbuf
+HAL_TIM_Base_Start_IT
+Motor_pwm
+_impure_ptr
+htim5
